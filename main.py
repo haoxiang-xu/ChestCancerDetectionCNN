@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import tensorflow_wavelets.Layers.DWT as wavelet
 from keras.preprocessing.image import ImageDataGenerator
 
+# Initilizing contents
 TRAIN_DATA_PATH = "Data/train"
 VALID_DATA_PATH = "Data/valid"
 TEST_DATA_PATH  = "Data/test"
@@ -12,6 +13,7 @@ BATCH_SIZE      = 16
 TARGET_SIZE     = (227,227)
 INPUT_SHAPE     = [227,227,3]
 
+# Preprocessing training data
 train_data_generator = tf.keras.preprocessing.image.ImageDataGenerator( rescale = 1.0/255.0,
                                                                         horizontal_flip = True,
                                                                         fill_mode = 'nearest',
@@ -20,18 +22,17 @@ train_data_generator = tf.keras.preprocessing.image.ImageDataGenerator( rescale 
                                                                         width_shift_range=0.2,
                                                                         height_shift_range=0.2,
                                                                         rotation_range=0.4)
-
 train_data = train_data_generator.flow_from_directory(  TRAIN_DATA_PATH,
                                                         batch_size = BATCH_SIZE,
                                                         target_size = TARGET_SIZE,
                                                         class_mode = 'categorical')
-
+# Preprocessing validation data
 validation_data_generator = ImageDataGenerator(rescale = 1.0/255.0)
-
 validation_data = validation_data_generator.flow_from_directory(     VALID_DATA_PATH,
                                                         target_size = TARGET_SIZE,
                                                         batch_size = BATCH_SIZE,
                                                         class_mode = 'categorical')
+# Abstract CNN model class
 class CNNModel:
     def __init__(self, input_shape=0, model_type='', model_path=None):
         self.model_type = model_type
@@ -111,6 +112,7 @@ class CNNModel:
             self.model.load_weights(self.model_path)
         else:
             self.model.load_weights(model_path)
+# Original AlexNet
 class AlexNet(CNNModel):
     def __init__(self,input_shape=0,model_path='savedModel/AlexNet.ckpt'):
 
@@ -130,32 +132,9 @@ class AlexNet(CNNModel):
         self.model.add(tf.keras.layers.Dropout(0.5))
         self.model.add(tf.keras.layers.Dense(units=4, activation='softmax'))
         self.model.compile(loss='categorical_crossentropy', optimizer="sgd", metrics = ['accuracy'])      
-class WaveletAlexNet(CNNModel):
-    def __init__(self,input_shape=0,model_path='savedModel/WaveletAlexNet.ckpt'):
-        opt = tf.keras.optimizers.SGD(momentum=0.9)
-
-        super().__init__(input_shape=input_shape,model_type="WaveletAlexNet",model_path=model_path)
-        self.model.add(tf.keras.layers.Conv2D(filters=384, kernel_size=5, activation='relu', strides=4, input_shape=input_shape))
-
-        self.model.add(wavelet.DWT(name='bd2'))
-        self.model.add(tf.keras.layers.Reshape((112, 112, 96)))
-
-        self.model.add(tf.keras.layers.MaxPool2D(pool_size=3,strides=2))
-        self.model.add(tf.keras.layers.Conv2D(filters=256, kernel_size=5, activation='relu'))
-        self.model.add(tf.keras.layers.MaxPool2D(pool_size=3,strides=2))
-        self.model.add(tf.keras.layers.Conv2D(filters=384, kernel_size=3, activation='relu'))
-        self.model.add(tf.keras.layers.Conv2D(filters=384, kernel_size=3, activation='relu'))
-        self.model.add(tf.keras.layers.Conv2D(filters=384, kernel_size=3, activation='relu'))
-        self.model.add(tf.keras.layers.Conv2D(filters=384, kernel_size=3, activation='relu'))
-        self.model.add(tf.keras.layers.MaxPool2D(pool_size=3,strides=2))
-        self.model.add(tf.keras.layers.Flatten(input_shape = (2,2,384)))
-        self.model.add(tf.keras.layers.Dense(units=4096, activation='relu'))
-        self.model.add(tf.keras.layers.Dropout(0.5))
-        self.model.add(tf.keras.layers.Dense(units=4096, activation='relu'))
-        self.model.add(tf.keras.layers.Dropout(0.5))
-        self.model.add(tf.keras.layers.Dense(units=4, activation='softmax'))
-        self.model.compile(loss='categorical_crossentropy', optimizer="sgd", metrics = ['accuracy'])
-        
+      
 alexNet = AlexNet(INPUT_SHAPE)
-alexNet.fit(train_data, validation_data, 2)
+alexNet.load()
+
+print(alexNet.predict("Data/test/large.cell.carcinoma/000169.png"))
 
