@@ -13,15 +13,18 @@ body{
     align-items: center;
 }
 .container{
-    width: 450px;
-    height: 80vh;
+    width: 420px;
+    height: 679px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 5px 45px rgba(0,0,0,0.15);
     border-radius: 10px;
 }
-.header h1{
+.header p{
+	font-family: 'Poppins', sans-serif;
+	color: #c5bebe;
 	padding: 15px;
+	font-size: 22px;
 }
 h2{
 	padding: 18px;
@@ -60,7 +63,13 @@ h5{
 	background-color: white;
 	color: balck;
 }
-.footer form{
+.small_label{
+	display: flex; 
+	align-items: center;
+	font-size: 13px;
+	color: #949090;
+}
+.footer div{
 	display: flex;
 	background-color: white;
 	border-radius: 0px 0px 10px 10px;
@@ -103,7 +112,22 @@ h5{
 	color: #e6e1de;
 	box-shadow: 0 5px 16px rgba(0,0,0,0.36);
 }
-form button{
+#uploadButton{
+	margin-left: 16px;
+	font-size: 19px;
+	border: none;
+	outline: none;
+	padding: 3px;
+	background-color: #e6e1de;
+	color: #979292;
+	border-radius: 6px 6px 6px 6px;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+#uploadButton:hover{
+	background-color: #ccc8c5;
+	box-shadow: 0 5px 16px rgba(0,0,0,0.12);
+}
+div button{
 	width: 100px;
 	font-size: 19px;
 	border: none;
@@ -113,7 +137,7 @@ form button{
 	border-radius: 0px 0px 10px 0px;
 	box-shadow: 0 5px 16px rgba(0,0,0,0.24);
 }
-form button:hover{
+div button:hover{
 	background-color: #4d4a4a;
 	color: #e6e1de;
 	box-shadow: 0 5px 16px rgba(0,0,0,0.64);
