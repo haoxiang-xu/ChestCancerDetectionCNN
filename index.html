@@ -1,7 +1,9 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <title>Dagnosing Lung Cancer</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>Lung Health Assistant</title>
+        <script type="text/javascript" src="script/script.js"></script>
+        <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     </head>
     <body>
         <div class="container">
@@ -9,19 +11,26 @@
                 <input class ="reset" type="submit" name="reset" value="REST">
             </form>
             <div class="header">
-                <h1>Lung Cancer Daignoser</h1>
+                <h1>Lung Health Assistant</h1>
             </div>
             <div class="body" id="chatbox">
                 <div class="chatbox">
                     <p class="message">Hello!</p>
-                    <p class="message user_message">Hi!</p>
+                    <p class="message">I am the Lung Health Assistant, you can ask me any question about lung health.</p>
+
+                    <div class="message">
+                        <label for="upload" id="uploadButton">Click to upload CT Image</label>
+                        <input type="file" name="upload" id="upload" hidden/>
+                    </div>
+
                 </div>
             </div>
             <div class="footer">
-                <form class="input">
-                    <input class="inputText" type="text" name="userInput" placeholder="Chat with the AI support Agent" required>
-                    <button>SEND</button>
-                </form>
+                <div class="input">
+                    <input class="inputText" id="input" type="text" name="userInput" placeholder="Chat with the Lung Health Assistant">
+                    <button id="sending" pys-onClick="onClick">SEND</button>
+                </div>
             </div>
         </div>
     </body>
+

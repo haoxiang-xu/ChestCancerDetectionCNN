@@ -13,25 +13,6 @@ BATCH_SIZE      = 16
 TARGET_SIZE     = (227,227)
 INPUT_SHAPE     = [227,227,3]
 
-# Preprocessing training data
-train_data_generator = tf.keras.preprocessing.image.ImageDataGenerator( rescale = 1.0/255.0,
-                                                                        horizontal_flip = True,
-                                                                        fill_mode = 'nearest',
-                                                                        zoom_range=0.2,
-                                                                        shear_range = 0.2,
-                                                                        width_shift_range=0.2,
-                                                                        height_shift_range=0.2,
-                                                                        rotation_range=0.4)
-train_data = train_data_generator.flow_from_directory(  TRAIN_DATA_PATH,
-                                                        batch_size = BATCH_SIZE,
-                                                        target_size = TARGET_SIZE,
-                                                        class_mode = 'categorical')
-# Preprocessing validation data
-validation_data_generator = ImageDataGenerator(rescale = 1.0/255.0)
-validation_data = validation_data_generator.flow_from_directory(     VALID_DATA_PATH,
-                                                        target_size = TARGET_SIZE,
-                                                        batch_size = BATCH_SIZE,
-                                                        class_mode = 'categorical')
 # Abstract CNN model class
 class CNNModel:
     def __init__(self, input_shape=0, model_type='', model_path=None):
