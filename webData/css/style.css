@@ -142,3 +142,7 @@ div button:hover{
 	color: #e6e1de;
 	box-shadow: 0 5px 16px rgba(0,0,0,0.64);
 }
+#python_code{
+	position:fixed;
+	color:#4d4a4a;
+}
