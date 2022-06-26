@@ -1,4 +1,3 @@
-import pywt
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -87,6 +86,13 @@ class CNNModel:
         imageArray = np.array([normalizedImage])
         predtionResult = np.argmax(self.model.predict(imageArray))
         print(classes_dir[predtionResult])
+        
+    def predict_file(self, image):
+        classes_dir = ["Adenocarcinoma","Large cell carcinoma","Normal","Squamous cell carcinoma"]
+        normalizedImage = tf.keras.utils.img_to_array(image)/255
+        imageArray = np.array([normalizedImage])
+        predtionResult = np.argmax(self.model.predict(imageArray))
+        print(classes_dir[predtionResult])
 
     def load(self,model_path=None):
         if(model_path==None):
@@ -116,6 +122,4 @@ class AlexNet(CNNModel):
       
 alexNet = AlexNet(INPUT_SHAPE)
 alexNet.load()
-
-print(alexNet.predict("Data/test/large.cell.carcinoma/000169.png"))
 
