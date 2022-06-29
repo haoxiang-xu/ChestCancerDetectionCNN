@@ -13,47 +13,19 @@ CORS(app)
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/CNN', methods=['GET', 'POST'])
-def login():
-   message = None
-   if request.method == 'POST':
-        datafromjs = request.form['data']
-        if(datafromjs=="1"):
-            result = "is 1"
-            resp = make_response('{"response": "sdfsdfsdfsdfds"}')
-            resp.headers['Content-Type'] = "application/json"
-        else:
-            result = "is not 1"
-            resp = make_response('{"response": "qweqweqwe"}')
-            resp.headers['Content-Type'] = "application/json"
-        return resp
     
-@app.route('/upload', methods=['GET',"POST"])
-def upload():
+@app.route('/CNN', methods=['GET',"POST"])
+def CNN():
+    resp = ""
     if request.method == "POST":
         if request.files:
             image = request.files["image"]
             image.save(os.path.join("K:\\DEV\\PROJECTs\\ChestCancerDetectionCNN\\uploads", image.filename))
             result = alexNet.predict("uploads/"+image.filename)
-            http = ""
-            if(result=="Adenocarcinoma"):
-                text = "Your lung cancer type: "
-                http = "https://en.wikipedia.org/wiki/Non-small-cell_lung_carcinoma#Lung_adenocarcinoma"
-            if(result=="Large cell carcinoma"):
-                text = "Your lung cancer type: "
-                http = "https://en.wikipedia.org/wiki/Non-small-cell_lung_carcinoma#Large-cell_lung_carcinoma"
-            if(result=="Normal"):
-                text = "Your lung is healthy"
-                result = ""
-                http = "#"
-            if(result=="Squamous cell carcinoma"):
-                text = "Your lung cancer type: "
-                http = "https://en.wikipedia.org/wiki/Non-small-cell_lung_carcinoma#Squamous-cell_lung_carcinoma"
-            
-            return render_template('index.html', text=text, type=result, link=http)
-        
-    return render_template('index.html')
+            resp = make_response('{"result": "' + result + '"}')
+            resp.headers['Content-Type'] = "application/json"
+    
+    return resp
 
 
 if __name__ == "__main__":

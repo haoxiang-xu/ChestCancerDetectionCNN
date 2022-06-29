@@ -5,7 +5,6 @@
     <title>INDEX</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    <script src= "{{ url_for('static', filename='javascript/script.js') }}"></script>
 </head>
     <body>
 
@@ -20,16 +19,12 @@
                 <div class="chatbox">
                     <p class="message">Hello</p>
                     <p class="message">You can ask me anything about your lung health</p>
-
                     <div class="message">
-                        <form action="/upload" method="POST" enctype="multipart/form-data">
+                        <form action="/CNN" method="POST" enctype="multipart/form-data" id="uploadImageForm">
                             <input type="file" name="image"/>
                             <label class="custom-file-label" for="image"></label>
                             <button id="uploadButton"><img src="{{url_for('static', filename='images/upload-icon.png')}}" alt="upload icon" width="36px"></button>
                         </form>
-                    </div>
-                    <div class="message">
-                        <p>{{ text }}</p><a href="{{ link }}">{{ type }}</a>
                     </div>
                 </div>
             </div>
@@ -48,9 +43,22 @@
     const body = document.getElementsByClassName("body");
     var sendingButton = document.getElementById("sending");
     var inputText = document.getElementsByClassName("inputText");
-    const actualBtn = document.getElementById('actual-btn');
-    const fileChosen = document.getElementById('file-chosen');
-
+    
+    $('#uploadImageForm' ).submit(
+        function( e ) {
+            var jqXHR = $.ajax( {
+                url: '/CNN',
+                type: 'POST',
+                data: new FormData( this ),
+                processData: false,
+                contentType: false,
+                success: function(result){
+                    addTextMsgChild(false,result["result"]);
+                }
+            } );
+            e.preventDefault();
+        } 
+    );
     sendingButton.addEventListener("click", function(e){
         if(inputText[0].value!=""){
             addTextMsgChild(true,inputText[0].value);
