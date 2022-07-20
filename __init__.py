@@ -13,6 +13,13 @@ CORS(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/Response', methods=['GET',"POST"])
+def Response():
+    resp = make_response('{"response" : "" }')
+    resp.headers['Content-Type'] = "application/json"
+    return resp
+    
     
 @app.route('/CNN', methods=['GET',"POST"])
 def CNN():
@@ -26,7 +33,6 @@ def CNN():
             resp.headers['Content-Type'] = "application/json"
     
     return resp
-
 
 if __name__ == "__main__":
     TRAIN_DATA_PATH = "Data/train"
@@ -138,5 +144,4 @@ if __name__ == "__main__":
     
     alexNet = AlexNet(INPUT_SHAPE)
     alexNet.load()
-    
     app.run(debug=True)

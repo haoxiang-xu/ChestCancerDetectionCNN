@@ -19,19 +19,12 @@
                 <div class="chatbox">
                     <p class="message">Hello</p>
                     <p class="message">You can ask me anything about your lung health</p>
-                    <div class="message">
-                        <form action="/CNN" method="POST" enctype="multipart/form-data" id="uploadImageForm">
-                            <input type="file" name="image"/>
-                            <label class="custom-file-label" for="image"></label>
-                            <button id="uploadButton"><img src="{{url_for('static', filename='images/upload-icon.png')}}" alt="upload icon" width="36px"></button>
-                        </form>
-                    </div>
                 </div>
             </div>
             <div class="footer">
                 <div class="input">
                     <input class="inputText" id="input" type="text" name="userInput" placeholder="Chat with the Lung Health Assistant">
-                    <button id="sending" pys-onClick="onClick">SEND</button>
+                    <button id="sending">SEND</button>
                 </div>
             </div>
         </div>
@@ -44,27 +37,11 @@
     var sendingButton = document.getElementById("sending");
     var inputText = document.getElementsByClassName("inputText");
     
-    $('#uploadImageForm' ).submit(
-        function( e ) {
-            var jqXHR = $.ajax( {
-                url: '/CNN',
-                type: 'POST',
-                data: new FormData( this ),
-                processData: false,
-                contentType: false,
-                success: function(result){
-                    addTextMsgChild(false,result["result"]);
-                }
-            } );
-            e.preventDefault();
-        } 
-    );
     sendingButton.addEventListener("click", function(e){
         if(inputText[0].value!=""){
             addTextMsgChild(true,inputText[0].value);
             emptyInputBox();
-            result = runPyScript(inputText[0].value);
-            console.log('Got back ' + result);
+            getResponse(inputText[0].value);
         }
     });
     function addTextMsgChild(userMsg,msg){
@@ -75,7 +52,7 @@
         if(userMsg){
             child.classList.add("user_message");
         }
-        chatbox[0].appendChild(child);
+        $("#chatbox").append(child);
         extendChatBoxLength();
         checkChatBoxMaxLength();
     }
@@ -90,13 +67,39 @@
             chatbox[0].removeChild(chatbox[0].firstChild);
         }
     }
-    function runPyScript(input){
+    function getResponse(input){
         var jqXHR = $.ajax({
-            type: "POST",
-            url: "/CNN",
+            url: '/Response',
+            type: 'POST',
             async: false,
-            data: { data: input }
+            data: { 'data': input },
+            success: function(result){
+                addTextMsgChild(false,result["response"]);
+                popUploadForm();
+            }
         });
         return jqXHR.responseText;
+    }
+    function popUploadForm(){
+        var message = $("<div class=\"message\"></div>");
+        var form = $("<form action=\"/CNN\" method=\"POST\" enctype=\"multipart/form-data\" id=\"uploadImageForm\"><input type=\"file\" name=\"image\"/><label class=\"custom-file-label\" for=\"image\"></label><button id=\"uploadButton\">Diagnose</button></form>");
+        form.submit(
+            function(e){
+                var jqXHR = $.ajax( {
+                    url: '/CNN',
+                    type: 'POST',
+                    data: new FormData( this ),
+                    processData: false,
+                    contentType: false,
+                    success: function(result){
+                        addTextMsgChild(false,result["result"]);
+                    }
+                });
+                e.preventDefault();
+                return jqXHR.responseText;
+            }
+        );
+        message.append(form);
+        $("#chatbox").append(message);
     }
 </script>

@@ -1,0 +1,15 @@
+{"intents":[
+    {"tag": "HI",
+     "keys":        ["hi", "hello", "anyone", "how"],
+     "responses":   ["Hello!", "Good to see you again!", "Hi there, how can I help?"]
+    },
+    {"tag": "CHECK",
+    "keys":         ["ct", "check", "take", "look", "image"],
+    "responses":    ["In order to dignose your type of lung cancer. Please upload your chest CT image below."]
+    },
+    {"tag": "BYE",
+    "keys":         ["cya", "see", "goodbye", "leaving", "leave", "bye"],
+    "responses":    ["Goodbye!", "Good to see you again!", "Hi there, how can I help?"]
+    }
+    ]
+}
