@@ -12,7 +12,7 @@
   - matplotlib.pyplot
   - tensorflow_wavelets.Layers.DWT
 - run CNN.ipynb to train the models, since there's no pretrained data stored in the repository. All importing code are already included.
-- run main.py which is a flask base python web page. It will load up the pretrained model and classify images.
+- run _init_.py which is a flask base python web page. It will load up the pretrained model and classify images.
 
 ### Source of data
 ##### Dataset
