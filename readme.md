@@ -1,5 +1,19 @@
 # Lung Cancer Classification CNN
 
+### About this project
+###### Since the traditional manual method of classifying lung cancer CT photos is very time-consuming, a new automated, highly accurate classification method is urgently needed. This has led to the use of the Convolutional Neural Network (CNN) for image classification and recognition as the best choice in the medical field. However, due to the problem of vanishing gradient when the layer depth of these models is too deep, the gradient will be vanishingly small and this leads to extremely low learning efficiency, which may even be close to 0. In this paper, a reimplemented CNN model based on ResNet is used to improve low learning efficiency. Three different CNNs are also compared and illustrate that the deeper neural networks have better learning efficiency and higher accuracy for classifying lung CT images. Specifically, LeNet, AlexNet, and ResNet are reimplemented, where the first two CNNs represent traditional models. By comparing the accuracy of the three models, we conclude that the traditional model is sufficient for the task of classifying lung cancer models and has an acceptable accuracy rate when the number of training sessions reaches a certain level, but it is not competitive in learning efficiency and accuracy for the same number of training sessions compared to the subsequent models with more neurons.
+
+### How to run the code
+- Clone github repository https://github.com/bananamilkt/ChestCancerDetectionCNN.git
+- install required python packages 
+  - flask
+  - numpy
+  - tensorflow
+  - matplotlib.pyplot
+  - tensorflow_wavelets.Layers.DWT
+- run CNN.ipynb to train the models, since there's no pretrained data stored in the repository. All importing code are already included.
+- run main.py which is a flask base python web page. It will load up the pretrained model and classify images.
+
 ### Source of data
 ##### Dataset
 - https://www.kaggle.com/datasets/mohamedhanyyy/chest-ctscan-images
@@ -13,26 +27,5 @@
     ###### CNN implementation for Chest Cancer Detection by Likitha Vadlapudi student at vignan's institute of information and technology.
 - https://keras.io/api/data_loading/image/
 - https://www.tensorflow.org/tutorials/images/cnn
-
-### Referencing paper
-- Guangyu Jia, Hak-Keung Lam, Yujia Xu,
-  Classification of COVID-19 chest X-Ray and CT images using a type of dynamic CNN modification method,
-  Computers in Biology and Medicine,
-  Volume 134,
-  2021,
-  104425,
-  ISSN 0010-4825,
-  https://doi.org/10.1016/j.compbiomed.2021.104425.
-  (https://www.sciencedirect.com/science/article/pii/S0010482521002195)
-  
-- Dipanjan Moitra, Rakesh Kr. Mandal,
-  Classification of non-small cell lung cancer using one-dimensional convolutional neural network,
-  Expert Systems with Applications,
-  Volume 159,
-  2020,
-  113564,
-  ISSN 0957-4174,
-  https://doi.org/10.1016/j.eswa.2020.113564.
-  (https://www.sciencedirect.com/science/article/pii/S0957417420303882)
 
 
